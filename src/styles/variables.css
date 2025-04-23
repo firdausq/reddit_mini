@@ -1,0 +1,17 @@
+:root {
+    --color-primary: #986dd1;
+    --color-accent: #0079d3;
+    --color-background: #f6f7f8;
+    --color-surface: #ffffff;
+    --color-text: #1a1a1b;
+    --color-muted: #878a8c;
+  
+    --font-main: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    --border-radius: 0.5rem;
+  
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+  }
+  
