@@ -2,14 +2,32 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
-  async (term = '') => {
-    const url = term
-      ? `https://www.reddit.com/search.json?q=${encodeURIComponent(term)}`
-      : 'https://www.reddit.com/r/popular.json';
+  async (searchTerm, { rejectWithValue }) => {
+    const query = searchTerm ? `search.json?q=${searchTerm}` : `r/popular.json`;
+    const url = `https://www.reddit.com/${query}`;
 
-    const response = await fetch(url);
-    const json = await response.json();
-    return json.data.children.map((child) => child.data);
+    try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        if (response.status === 429) {
+          return rejectWithValue({ message: 'Rate limit exceeded' });
+        }
+        throw new Error('Failed to fetch');
+      }
+
+      const data = await response.json();
+      const postData = data.data.children.map((child) => child.data);
+
+      // Cache speichern
+      localStorage.setItem(`posts-${searchTerm || 'popular'}`, JSON.stringify(postData));
+
+      return postData;
+
+    } catch (err) {
+      console.error('Fetch failed:', err);
+      return rejectWithValue({ message: err.message });
+    }
   }
 );
 
@@ -17,14 +35,15 @@ const postsSlice = createSlice({
   name: 'posts',
   initialState: {
     items: [],
-    status: 'idle', // idle | loading | succeeded | failed
-    error: null,
+    status: 'idle',
+    errorMessage: '',
   },
   reducers: {},
-  extraReducers(builder) {
+  extraReducers: (builder) => {
     builder
       .addCase(fetchPosts.pending, (state) => {
         state.status = 'loading';
+        state.errorMessage = '';
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.status = 'succeeded';
@@ -32,7 +51,13 @@ const postsSlice = createSlice({
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message;
+        state.errorMessage = action.payload?.message || 'Unknown error';
+
+        // Im Fehlerfall: versuche aus dem Cache zu laden
+        const lastSuccessful = localStorage.getItem('posts-popular');
+        if (lastSuccessful) {
+          state.items = JSON.parse(lastSuccessful);
+        }
       });
   },
 });

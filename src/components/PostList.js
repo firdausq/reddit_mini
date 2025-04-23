@@ -8,14 +8,22 @@ function PostList() {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.items);
   const status = useSelector((state) => state.posts.status);
+  const errorMessage = useSelector((state) => state.posts.errorMessage);
   const searchTerm = useSelector((state) => state.search.term);
 
   useEffect(() => {
     dispatch(fetchPosts(searchTerm));
   }, [searchTerm, dispatch]);
 
-  if (status === 'loading') return <LoadingSpinner />;;
-  if (status === 'failed') return <p>Error loading posts.</p>;
+  if (status === 'loading') return <LoadingSpinner />;
+  if (status === 'failed') {
+    return (
+      <div className="error-message">
+        <p>⚠️ {errorMessage}</p>
+        {posts.length > 0 && <p>Showing cached posts instead.</p>}
+      </div>
+    );
+  }
 
   return (
     <div className="post-list">
