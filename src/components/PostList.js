@@ -30,8 +30,10 @@ function PostList() {
       {posts.map((post) => (
         <PostItem
           key={post.id}
+          id={post.id}
           title={post.title}
           author={post.author}
+          body={post.selftext}
           subreddit={post.subreddit}
           thumbnail={post.thumbnail}
           commentsCount={post.num_comments}
