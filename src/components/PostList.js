@@ -10,10 +10,11 @@ function PostList() {
   const status = useSelector((state) => state.posts.status);
   const errorMessage = useSelector((state) => state.posts.errorMessage);
   const searchTerm = useSelector((state) => state.search.term);
+  const { subreddit, sort, time } = useSelector((state) => state.filter);
 
   useEffect(() => {
-    dispatch(fetchPosts(searchTerm));
-  }, [searchTerm, dispatch]);
+    dispatch(fetchPosts({ searchTerm, subreddit, sort, time }));
+  }, [searchTerm, subreddit, sort, time, dispatch]);  
 
   if (status === 'loading') return <LoadingSpinner />;
   if (status === 'failed') {

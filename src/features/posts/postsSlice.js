@@ -1,9 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+// Hier wird fetchPosts angepasst, um die Filter zu berücksichtigen
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
-  async (searchTerm, { rejectWithValue }) => {
-    const query = searchTerm ? `search.json?q=${searchTerm}` : `r/popular.json`;
+  async ({ searchTerm, subreddit, sort, time }, { rejectWithValue }) => {
+    // Standardwerte setzen, falls sie nicht vorhanden sind
+    const currentSubreddit = subreddit || 'popular';
+    const currentSort = sort || 'hot';
+    const currentTime = time || 'hour';
+
+    // Wenn ein searchTerm vorliegt, wird die Reddit-Such-API verwendet, sonst die Subreddit-API
+    const query = searchTerm
+      ? `search.json?q=${searchTerm}`
+      : `r/${currentSubreddit}/${currentSort}.json?t=${currentTime}`;
     const url = `https://www.reddit.com/${query}`;
 
     try {
@@ -20,10 +29,9 @@ export const fetchPosts = createAsyncThunk(
       const postData = data.data.children.map((child) => child.data);
 
       // Cache speichern
-      localStorage.setItem(`posts-${searchTerm || 'popular'}`, JSON.stringify(postData));
+      localStorage.setItem(`posts-${searchTerm || currentSubreddit}`, JSON.stringify(postData));
 
       return postData;
-
     } catch (err) {
       console.error('Fetch failed:', err);
       return rejectWithValue({ message: err.message });
