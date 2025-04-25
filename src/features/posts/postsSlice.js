@@ -1,3 +1,4 @@
+// src/features/posts/postsSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Hier wird fetchPosts angepasst, um die Filter zu berücksichtigen
@@ -26,7 +27,14 @@ export const fetchPosts = createAsyncThunk(
       }
 
       const data = await response.json();
-      const postData = data.data.children.map((child) => child.data);
+      const postData = data.data.children.map((child) => {
+        const post = child.data;
+
+        // Überprüfen, ob Medien vorhanden sind
+        const media = post.secure_media?.reddit_video || post.preview?.images[0]?.source;
+
+        return { ...post, media }; // Füge das Medienobjekt hinzu
+      });
 
       // Cache speichern
       localStorage.setItem(`posts-${searchTerm || currentSubreddit}`, JSON.stringify(postData));

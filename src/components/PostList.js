@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from '../features/posts/postsSlice';
 import PostItem from './PostItem';
 import LoadingSpinner from './LoadingSpinner';
+import '../styles/components/PostList.css';
+
 
 function PostList() {
   const dispatch = useDispatch();

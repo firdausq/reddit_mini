@@ -31,13 +31,17 @@ function PostDetail() {
 
   // Funktion zum Erstellen des Bild-Links mit max-width
   const renderImage = (imgSrc) => {
-    return (
-      <img
-        src={imgSrc}
-        alt="Post media"
-        style={{ maxWidth: '100%', height: 'auto' }} // Maximale Breite, keine Übergröße
-      />
-    );
+    // Überprüfen, ob der Link zu einem Bild gehört
+    if (imgSrc && imgSrc.match(/\.(jpeg|jpg|gif|png)$/)) {
+      return (
+        <img
+          src={imgSrc}
+          alt="Post media"
+          style={{ maxWidth: '100%', height: 'auto' }} // Maximale Breite, keine Übergröße
+        />
+      );
+    }
+    return null;
   };
 
   return (

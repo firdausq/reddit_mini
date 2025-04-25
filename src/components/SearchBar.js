@@ -28,7 +28,7 @@ function SearchBar() {
         onChange={(e) => setSearchTermLocal(e.target.value)}
         onKeyDown={handleKeyDown}
       />
-      <button className="search-button" onClick={handleSearch}>
+      <button type="button" className="search-button" onClick={handleSearch}>
         🔍
       </button>
     </div>

@@ -11,15 +11,16 @@ import './styles/variables.css';
 function App() {
 
   return (
-        <Router>
-          <Header />
-          <FilterBar />
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/post/:id" element={<PostDetail />} />
-        </Routes>
-      </Router>
+    <Router>
+      <Header />
+      <FilterBar />
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/post/:id" element={<PostDetail />} />
+      </Routes>
+    </Router>
   );
+  
 }
 
 export default App;

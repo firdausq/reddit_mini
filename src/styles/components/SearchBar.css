@@ -1,12 +1,14 @@
 .search-bar {
-    width: 100%; /* Default width */
-    max-width: 300px; /* Optional: Limit the maximum width */
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    align-items: center;
 }
 
 .search-input {
-    flex: 1; /* Allow the input to take up available space */
+    flex: 1;
     padding: 0.5rem 1rem;
-    margin-right: 0.5rem; /* Add spacing between input and button */
+    margin-right: 0.5rem;
     border: 1px solid #ddd;
     border-radius: var(--border-radius);
     font-size: 1rem;
@@ -37,7 +39,8 @@
 /* Media query for screens smaller than 400px */
 @media (max-width: 400px) {
     .search-bar {
-        width: 70%; /* Shrink the width further */
+        padding: 0 1rem;
+        max-width: 100%;
     }
 
     .search-input {

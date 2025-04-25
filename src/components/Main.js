@@ -1,9 +1,9 @@
 // src/components/Main.js
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import SearchBar from './SearchBar';
 import PostList from './PostList';
-import '../styles/components/Main.css'; // falls du getrenntes Styling willst
+import '../styles/components/Main.css';
 
 function Main() {
   const searchTerm = useSelector((state) => state.search.term);
