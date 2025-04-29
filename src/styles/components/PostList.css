@@ -1,39 +1,29 @@
 /* src/styles/components/PostList.css */
 
 .post-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin-top: 2rem;
-    width: 100%;
-    max-width: 900px;
-    padding: 0 1rem;
-  }
-  
-  /* Für größere Bildschirme: 2-Spalten-Layout */
-  @media (min-width: 768px) {
-    .post-list {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  
-  /* Für sehr große Bildschirme */
-  @media (min-width: 1200px) {
-    .post-list {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-  
-  /* Fehlernachricht */
-  .error-message {
-    color: red;
-    background-color: #ffe6e6;
-    border: 1px solid #ffcccc;
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    margin: 2rem auto;
-    max-width: 600px;
-    text-align: center;
-    font-weight: bold;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 800px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Optional: falls du die Größe der einzelnen Post-Container noch etwas erhöhen willst,
+   kannst du das lieber direkt im PostItem.css anpassen. */
+
+/* Fehlernachricht */
+.error-message {
+  color: red;
+  background-color: #ffe6e6;
+  border: 1px solid #ffcccc;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin: 2rem auto;
+  max-width: 600px;
+  text-align: center;
+  font-weight: bold;
+}

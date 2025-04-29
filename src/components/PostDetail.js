@@ -1,4 +1,3 @@
-// src/components/PostDetail.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner';
@@ -29,16 +28,45 @@ function PostDetail() {
   if (loading) return <LoadingSpinner />;
   if (!post) return <p>Post not found.</p>;
 
-  // Funktion zum Erstellen des Bild-Links mit max-width
-  const renderImage = (imgSrc) => {
-    // Überprüfen, ob der Link zu einem Bild gehört
-    if (imgSrc && imgSrc.match(/\.(jpeg|jpg|gif|png)$/)) {
+  const isImageUrl = (url) => {
+    return (/\.(jpeg|jpg|gif|png)$/i).test(url);
+  };
+
+  const renderContent = () => {
+    // 1. Galerie
+    if (post.is_gallery && post.gallery_data && post.media_metadata) {
       return (
-        <img
-          src={imgSrc}
-          alt="Post media"
-          style={{ maxWidth: '100%', height: 'auto' }} // Maximale Breite, keine Übergröße
-        />
+        <div className="gallery">
+          {post.gallery_data.items.map((item) => {
+            const media = post.media_metadata[item.media_id];
+            const imgSrc = media?.s?.u?.replace(/&amp;/g, "&");
+            return (
+              <div key={item.media_id} className="gallery-item">
+                <img src={imgSrc} alt="Gallery Item" className="gallery-image" />
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+    // 2. Direktes Bild
+    else if (isImageUrl(post.url)) {
+      return (
+        <img src={post.url} alt="Post" style={{ maxWidth: '100%', height: 'auto' }} />
+      );
+    }
+    // 3. Text-Post
+    else if (post.selftext) {
+      return (
+        <p className="content">{post.selftext}</p>
+      );
+    }
+    // 4. Sonstiger externer Link
+    else if (post.url) {
+      return (
+        <a href={post.url} target="_blank" rel="noreferrer" className="external-link">
+          Visit Link
+        </a>
       );
     }
     return null;
@@ -48,32 +76,8 @@ function PostDetail() {
     <div className="post-detail">
       <h2>{post.title}</h2>
       <p className="author">by u/{post.author}</p>
-      
-      {/* Wenn es sich um eine Galerie handelt */}
-      {post.is_gallery && post.gallery_data && post.media_metadata ? (
-        <div className="gallery">
-          {post.gallery_data.items.map((item) => {
-            const media = post.media_metadata[item.media_id];
-            const imgSrc = media?.s?.u?.replace(/&amp;/g, "&"); // HTML-Decoding
-            return (
-              <div key={item.media_id} className="gallery-item">
-                {renderImage(imgSrc)}
-              </div>
-            );
-          })}
-        </div>
-      ) : post.selftext ? (
-        <p className="content">{post.selftext}</p>
-      ) : post.url ? (
-        <a href={post.url} target="_blank" rel="noreferrer">Visit Link</a>
-      ) : null}
 
-      {/* Wenn es nur ein externes Bild gibt (nicht aus der Galerie) */}
-      {post.url && post.url.includes('reddit.com') && (
-        <div className="external-image">
-          {renderImage(post.url)}
-        </div>
-      )}
+      {renderContent()}
 
       <h3>Comments</h3>
       <ul className="comments-list">

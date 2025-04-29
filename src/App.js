@@ -9,18 +9,18 @@ import './styles/global.css';
 import './styles/variables.css';
 
 function App() {
-
   return (
     <Router>
-      <Header />
-      <FilterBar />
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/post/:id" element={<PostDetail />} />
-      </Routes>
+      <div className="app-wrapper">
+        <Header />
+        <FilterBar />
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/post/:id" element={<PostDetail />} />
+        </Routes>
+      </div>
     </Router>
   );
-  
 }
 
 export default App;

@@ -1,8 +1,12 @@
 /* src/styles/components/PostDetail.css */
+
 .post-detail {
   padding: 20px;
-  max-width: 700px;
-  margin: auto;
+  max-width: 800px;
+  margin: 2rem auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .author {
@@ -14,25 +18,16 @@
 .content {
   font-size: 1.1rem;
   margin-bottom: 2rem;
+  white-space: pre-wrap;
+  line-height: 1.6;
 }
 
-.comments-list {
-  list-style: none;
-  padding: 0;
-}
-
-.comment {
-  border-top: 1px solid #ccc;
-  padding: 1rem 0;
-}
-
-.comment-author {
+.external-link {
+  display: inline-block;
+  margin: 1rem 0;
+  color: var(--color-accent, #0066cc);
   font-weight: bold;
-  margin-bottom: 0.3rem;
-}
-
-.comment-body {
-  margin-left: 1rem;
+  text-decoration: underline;
 }
 
 .gallery {
@@ -43,18 +38,50 @@
   justify-content: flex-start;
 }
 
-.gallery-item img {
-  max-width: 100%;
-  height: auto;
-  max-height: 400px;
-  object-fit: contain;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.gallery-item {
+  flex: 1 1 calc(50% - 12px);
+  max-width: calc(50% - 12px);
+  position: relative;
 }
 
-.external-image img {
-  max-width: 100%;
+.gallery-image {
+  width: 100%;
   height: auto;
-  margin-top: 1rem;
   border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 600px) {
+  .gallery-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+.comments-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 2rem;
+}
+
+.comment {
+  border-top: 1px solid #eee;
+  padding: 1rem 0;
+}
+
+.comment:first-child {
+  border-top: none;
+}
+
+.comment-author {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+}
+
+.comment-body {
+  margin-left: 1rem;
+  font-size: 0.95rem;
+  color: #333;
 }
