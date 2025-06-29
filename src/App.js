@@ -5,7 +5,6 @@ import Header from './components/Header';
 import Main from './components/Main';
 import PostDetail from './components/PostDetail';
 import FilterBar from './components/FilterBar';
-import './styles/global.css';
 import './styles/variables.css';
 
 function App() {
